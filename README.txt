@@ -8,8 +8,6 @@ Name of the project: FlexGrip-Plus
 Type: Open-source General Purpose Graphics Processing Unit (GPGPU)
 Language: Fully described in VHDL
 Target simulator or technology: The model can be ported into any version of ModelSim
-Acknowledgements:
-xxxxxxxxxxxxxxxxxxx
 
 Description:
 The FlexGrip model is an open-source General Purpose Graphics Processing Unit (GPGPU) fully described in vhdl and implementing the microarchitecture of the G80 architecture of NVIDIA. The model was originally developed by the University of Massachusetts and released in 2010 targeting the implementation on Xilinx platforms. The current version is a debugged and extended version of the FlexGrip model, now called "FlexGrip-plus" and fully supports 28 instructions in more than 64 formats. The improved version is fully compatible with the CUDA programming environment under SM_1.0 compatibility. 
@@ -20,13 +18,13 @@ For additional details regarding the internal description, please see the follow
 
 - Andryc, K., Thomas, T., & Tessier, R. (2016). Soft GPGPUs for embedded FPGAs: An architectural evaluation. arXiv preprint arXiv:1606.06454.
 
-- B. Du, J. E. R. Condia and M. S. Reorda, "An extended model to support detailed GPGPU reliability analysis," 2019 14th International Conference on Design & Technology of Integrated Systems In Nanoscale Era (DTIS), Mykonos, Greece, 2019, pp. 1-6.
+- B. Du, J. E. R. Condia and M. Sonza Reorda, "An extended model to support detailed GPGPU reliability analysis," 14th International Conference on Design & Technology of Integrated Systems In Nanoscale Era (DTIS), Mykonos, Greece, 2019, pp. 1-6.
 
-- B. Du, J. E. Rodriguez Condia, M. Sonza Reorda and L. Sterpone, "On the evaluation of SEU effects in GPGPUs," 2019 IEEE Latin American Test Symposium (LATS), Santiago, Chile, 2019, pp. 1-6.
+- B. Du, J. E. Rodriguez Condia, M. Sonza Reorda and L. Sterpone, "On the evaluation of SEU effects in GPGPUs," IEEE Latin American Test Symposium (LATS), Santiago, Chile, 2019, pp. 1-6.
 
 
 Please check the "Generic Design" folder, it contains the whole description of the GPGPU model. 
-Folow the next steps if you want to perform an initial simulation of the model:
+Follow the next steps if you want to perform an initial simulation of the model:
 Steps to perform a simulation of the GPGPU model.
 
 1) Enter in Generic Design/lib and launch the next command:"vsim -do gpu_compile.tcl", this will starts the operation of the GUI of modelsim and import of the required description files for simulating the model.
@@ -36,8 +34,7 @@ Steps to perform a simulation of the GPGPU model.
 3) Analyze results or change target application for the simulation. (See steps for changing the application)
 
 //**
-Steps for changing the application:
-In order to change the application, it should be noted that three elements must be considered in the GPGPU. (The instruction memory, the data memory and the configuration memory)
+In order to change the application, three elements must be considered in the GPGPU: The instruction memory, the data memory and the configuration memory.
 
 The instruction memory is located in the folder Generic_Design/TB/TP/ and it is named as TP_instructions.vhd
 The data memory is located in the folder Generic_Design/lib/ and named as global_mem.mif
