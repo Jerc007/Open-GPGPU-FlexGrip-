@@ -4,13 +4,13 @@ Electronic CAD & Reliability Group (CAD Group)
 2019
 
 Author: Josie Esteban Rodriguez Condia
-Name of the project: FlexGrip-Plus
+Name of the project: FlexGripPlus
 Type: Open-source General Purpose Graphics Processing Unit (GPGPU)
 Language: Fully described in VHDL
-Target simulator or technology: The model can be ported into any version of ModelSim
+Target simulator or technology: The model can be ported into any version of ModelSim and Xcelium
 
 Description:
-The FlexGrip model is an open-source General Purpose Graphics Processing Unit (GPGPU) fully described in vhdl and implementing the microarchitecture of the G80 architecture of NVIDIA. The model was originally developed by the University of Massachusetts and released in 2010 targeting the implementation on Xilinx platforms. The current version is a debugged and extended version of the FlexGrip model, now called "FlexGrip-plus" and fully supports 28 instructions in more than 64 formats. The improved version is fully compatible with the CUDA programming environment under SM_1.0 compatibility. 
+The FlexGrip model is an open-source General Purpose Graphics Processing Unit (GPGPU) fully described in vhdl and implementing the microarchitecture of the G80 architecture of NVIDIA. The model was originally developed by the University of Massachusetts and released in 2010 targeting the implementation on Xilinx platforms. The current version is a debugged and extended version of the FlexGrip model, now called "FlexGripPlus" and fully supports 28 instructions in more than 64 formats. The improved version is fully compatible with the CUDA programming environment under SM_1.0 compatibility. 
 
 For additional details regarding the internal description, please see the following documentation:
 
