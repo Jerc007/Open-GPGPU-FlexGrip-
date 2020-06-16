@@ -14,13 +14,7 @@ The FlexGrip model is an open-source General Purpose Graphics Processing Unit (G
 
 For additional details regarding the internal description, please see the following documentation:
 
-- K. Andryc, M. Merchant and R. Tessier, "FlexGrip: A soft GPGPU for FPGAs," 2013 International Conference on Field-Programmable Technology (FPT), Kyoto, 2013, pp. 230-237.
-
-- Andryc, K., Thomas, T., & Tessier, R. (2016). Soft GPGPUs for embedded FPGAs: An architectural evaluation. arXiv preprint arXiv:1606.06454.
-
-- B. Du, J. E. R. Condia and M. Sonza Reorda, "An extended model to support detailed GPGPU reliability analysis," 14th International Conference on Design & Technology of Integrated Systems In Nanoscale Era (DTIS), Mykonos, Greece, 2019, pp. 1-6.
-
-- B. Du, J. E. Rodriguez Condia, M. Sonza Reorda and L. Sterpone, "On the evaluation of SEU effects in GPGPUs," IEEE Latin American Test Symposium (LATS), Santiago, Chile, 2019, pp. 1-6.
+- J. E. R. Condia, B. Du, M. Sonza Reorda and L. Sterpone, "FlexGripPlus: An improved GPGPU model to support reliability analysis," Microelectronics Reliability 109, 113660, 2020
 
 
 Please check the "Generic Design" folder, it contains the whole description of the GPGPU model. 
@@ -49,6 +43,16 @@ The "global_mem.mif" contains the data elements required by the aplication. If r
 The "pickbench.vhd" file contains the configuration parameters required by the model. These are maintained as constants by the lack of a host to control them before a program kernel operation. Check the dedicated manual to select the values of each line in this file.
 
 Once you change or move new files, you can repeat the launching process and check the simulation of the model.
+
+Other documents of support:
+
+- B. Du, J. E. R. Condia and M. Sonza Reorda, "An extended model to support detailed GPGPU reliability analysis," 14th International Conference on Design & Technology of Integrated Systems In Nanoscale Era (DTIS), Mykonos, Greece, 2019, pp. 1-6.
+
+- B. Du, J. E. Rodriguez Condia, M. Sonza Reorda and L. Sterpone, "On the evaluation of SEU effects in GPGPUs," IEEE Latin American Test Symposium (LATS), Santiago, Chile, 2019, pp. 1-6.
+
+- K. Andryc, M. Merchant and R. Tessier, "FlexGrip: A soft GPGPU for FPGAs," 2013 International Conference on Field-Programmable Technology (FPT), Kyoto, 2013, pp. 230-237.
+
+- Andryc, K., Thomas, T., & Tessier, R. (2016). Soft GPGPUs for embedded FPGAs: An architectural evaluation. arXiv preprint arXiv:1606.06454.
 
 Have fun!!!!
 
