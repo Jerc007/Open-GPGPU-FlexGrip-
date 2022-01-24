@@ -8,20 +8,20 @@ Grenoble Institute of Technology
 
 # == Content ==               	
                              	
--  Description of blocks      
- - fpu_add_32.vhd            
- - fpu_sub_32.vhd           	
- - fpu_mul_32.vhd           	
- - fpu_fma_32.vhd           	
- - fpu_round_32.vhd        
- - fpu_exceptions_32.vhd	    
- - fpu_conv_32.vhd   			  
- - fpu_set_32.vhd    			  
- - fpu_rcp_32.vhd    			  
- - fpu_top_32_new.vhd     	  
- - fpupackage.vhd
-- Instruction opcodes        
-- Simulation guide           
+1.0 - Description of blocks      
+      - fpu_add_32.vhd            
+      - fpu_sub_32.vhd           	
+      - fpu_mul_32.vhd           	
+      - fpu_fma_32.vhd           	
+      - fpu_round_32.vhd        
+      - fpu_exceptions_32.vhd	    
+      - fpu_conv_32.vhd   			  
+      - fpu_set_32.vhd    			  
+      - fpu_rcp_32.vhd    			  
+      - fpu_top_32_new.vhd     	  
+      - fpupackage.vhd
+2.0 - Instruction opcodes        
+3.0 - Simulation guide           
                               
 
 
