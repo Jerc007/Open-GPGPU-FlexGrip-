@@ -69,14 +69,28 @@ Once you change or move new files, you can repeat the launching process and chec
 
 ## Additional documentation:
 
+- J. E. R. Condia, *"New Techniques for On-line Testing and Fault Mitigation in GPUs"*, Politecnico di Torino.
 
-- B. Du, J. E. R. Condia and M. Sonza Reorda, *"An extended model to support detailed GPGPU reliability analysis,"* 14th International Conference on Design & Technology of Integrated Systems In Nanoscale Era (DTIS), Mykonos, Greece, 2019, pp. 1-6.
+- J. E. R. Condia, F. F. d. Santos, M. Sonza Reorda, P. Rech, *“Combining architectural simulation and software fault injection for a fast and accurate CNNs reliability evaluation on GPUs”*, 39th IEEE VLSI Test Symposium, 2021.
 
-- B. Du, J. E. Rodriguez Condia, M. Sonza Reorda and L. Sterpone, *"On the evaluation of SEU effects in GPGPUs,"* IEEE Latin American Test Symposium (LATS), Santiago, Chile, 2019, pp. 1-6.
+- J. Guerrero-Balaguera, J. E. R. Condia, M. Sonza Reorda, *"On the Functional Test of Special Function Units in GPUs”*, 24th International Symposium on Design and Diagnostics of Electronic Circuits & Systems, 2021.
 
-- K. Andryc, M. Merchant and R. Tessier, *"FlexGrip: A soft GPGPU for FPGAs,"* 2013 International Conference on Field-Programmable Technology (FPT), Kyoto, 2013, pp. 230-237.
+- J. E. R. Condia, P. Narducci, M. Sonza Reorda, L. Sterpone, *“DYRE: a DYnamic REconfigurable solution to increase GPGPU’s reliability”*, THE JOURNAL OF SUPERCOMPUTING, ISSN 11625–11642, 77, 2021.
+
+- J. E. R. Condia, J. Guerrero-Balaguera, C. Moreno-Manrique, M. Sonza Reorda, *“Design and Verification of an open-source SFU model for GPGPUs”*, Baltic Electronics Conference, 2020.
+
+- J. E. R. Condia, M. Sonza Reorda, *“On the testing of special memories in GPGPUs”*, 26th International Symposium on On-Line Testing and Robust System Design, 2020.
+
+- B. Du, J. E. R. Condia and M. Sonza Reorda, *"An extended model to support detailed GPGPU reliability analysis,"* 14th International Conference on Design & Technology of Integrated Systems In Nanoscale Era (DTIS), 2019.
+
+- B. Du, J. E. Rodriguez Condia, M. Sonza Reorda and L. Sterpone, *"On the evaluation of SEU effects in GPGPUs,"* IEEE Latin American Test Symposium (LATS), 2019.
+
+- K. Andryc, M. Merchant and R. Tessier, *"FlexGrip: A soft GPGPU for FPGAs,"* 2013 International Conference on Field-Programmable Technology (FPT), 2013.
 
 - Andryc, K., Thomas, T., & Tessier, R. (2016). *Soft GPGPUs for embedded FPGAs: An architectural evaluation*, arXiv preprint arXiv:1606.06454.
+
+- Andryc, K., *AN ARCHITECTURE EVALUATION AND IMPLEMENTATION OF A SOFT GPGPU FOR FPGAs*, University of Massachusetts Amherst.
+
 
 
 ## Acknowledgments:
@@ -88,6 +102,7 @@ The Floating Point Unit (FPU) extension and op-codes were developed in cooperati
 
 The Special Functions Unit (SFU) extension and op-codes were developed in cooperation between Politecnico di Torino and Universidad Pedagogica y Tecnologica de Colombia (UPTC).
 
+[![logo-poli-blu.png](https://i.postimg.cc/tRMFsnD8/logo-poli-blu.png)](https://postimg.cc/kDW2Z40y)
 
 ![](https://pbs.twimg.com/profile_images/913684021040893952/GrLIBP1R_400x400.jpg)
 
