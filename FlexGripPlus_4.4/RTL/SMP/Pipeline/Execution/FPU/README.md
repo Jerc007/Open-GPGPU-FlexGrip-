@@ -8,7 +8,7 @@ Grenoble Institute of Technology
 
 # == Content ==               	
                              	
-1.0 - Description of blocks      
+1.0 Description of blocks      
       - fpu_add_32.vhd            
       - fpu_sub_32.vhd           	
       - fpu_mul_32.vhd           	
@@ -20,8 +20,8 @@ Grenoble Institute of Technology
       - fpu_rcp_32.vhd    			  
       - fpu_top_32_new.vhd     	  
       - fpupackage.vhd
-2.0 - Instruction opcodes        
-3.0 - Simulation guide           
+2.0 Instruction opcodes        
+3.0 Simulation guide           
                               
 
 
