@@ -1,0 +1,26 @@
+
+__global__ void reduce1(int *idata, int *odata, int sizexxx)
+{
+    int i = (blockIdx.x * blockDim.x) + threadIdx.x;
+
+//	extern __shared__ int sdata[];
+//	sdata[i] = idata[i];
+//	sdata[index] += sdata[index + s];
+    odata[i] = idata[i];
+
+	int counter = 1;
+	// do reduction:
+
+	for(counter = 1; counter <= sizexxx; counter *= 2)
+	{
+		if ((i % (2 * counter)) == 0)  // is it even?
+		{
+    		odata[i] += odata[i + counter];
+		}
+	}
+
+	if (i == 0)
+	{
+		idata[i] = odata[i];
+	}
+}

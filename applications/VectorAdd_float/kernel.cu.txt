@@ -1,0 +1,5 @@
+__global__ void TEST_prog(float *data_in1, float *data_in2, float *data_out)		// employing IF functions
+{
+	unsigned int tid = (blockIdx.x * blockDim.x) + threadIdx.x;
+	data_out[tid] = data_in1[tid] + data_in2[tid];
+}

@@ -1,0 +1,20 @@
+__global__ void addKernel(int *c, const int *a, const int *b, int sizexxx)
+{
+    int i = (blockIdx.x * blockDim.x) + threadIdx.x;
+	int counter = 1;
+
+
+	c[i] = a[i] * b[i];
+
+	// do reduction:
+
+//    #pragma unroll
+	for(counter = 1; counter <= sizexxx; counter *= 2)
+	{
+    if ((i % (2 * counter)) == 0)  // is it even?
+			{
+				c[i] += c[i + counter];
+			}
+	}
+
+}

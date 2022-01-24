@@ -1,0 +1,75 @@
+
+// kernel function describing the code of a sorting algorithm for multiple block execution. Also for one block.
+
+// The input parameters are:
+// int *data:		Pointer of the input data memory an also the destiny of the sorting procedure.
+// int num_elem:	Total number of elements to perform the sort algorithm.
+
+__global__ void TEST_prog(int *data, int num_elem)							// employing IF functions
+{
+	const unsigned int tid = (blockIdx.x * blockDim.x) + threadIdx.x;		// global for all the system.
+//	const unsigned int tid = threadIdx.x;									// limited to 1024 threads. (this version works perfect)
+
+	unsigned int tid_idx;
+	unsigned int offset = 0; 												// Start off with even, then odd
+	unsigned int d0;
+	unsigned int d1;
+
+	// Calculation maximum index for a given block
+	// Last block it is number of elements minus one
+	// Other blocks to end of block minus one
+
+	// This operation generates unsupported instructions. (this could be limited to only one block???)
+//	const unsigned int  tid_idx_max = min((((blockIdx.x + 1) * (blockDim.x * 2)) - 1), (num_elem - 1));		// this parameter can be directly replaced by (num_elem) value.
+
+
+	const unsigned int  tid_idx_max = ((blockIdx.x + 1) * (blockDim.x * 2)) - 1 ;		// this parameter can be directly replaced by (num_elem) value.
+
+
+
+	// Good configuration is required for this kernel.
+	// unsigned int  tid_idx_max = (num_elem - 1);		// In the equation is the same value. This can be keeped. There is not any difference among them.
+
+//	printf("Total elements to process: %d \n", tid_idx_max);
+
+	int i;
+
+	for (i = 0; i < num_elem; i++)
+	{
+		// Reset number of swaps
+		//num_swaps = 0;
+		// Work out index of data
+		tid_idx = (tid * 2) + offset;			// turn into pointer to access even elements.
+												// If no array or block overrun
+//		printf("Checking in %d \n", tid);
+
+		if (tid_idx < tid_idx_max)
+		{
+
+			// Read values into registers
+			d0 = data[tid_idx];
+			d1 = data[tid_idx + 1];
+
+//			printf("Changing in %d  (%d  %d)\n", tid, d0, d1);
+
+			// Compare registers
+			if (d0 > d1)
+			{
+//				printf("Swapping in %d\n", tid);
+
+				// Swap values if needed
+				data[tid_idx] = d1;
+				data[tid_idx + 1] = d0;
+				// Keep track that we did a swap
+				//num_swaps++;
+			}
+		}
+		// Switch from even to off, or odd to even
+		if (offset == 0)
+			offset = 1;
+		else
+			offset = 0;
+
+	}
+//	printf("Total Order:%d %d %d %d %d\n", data[0], data[1], data[2], data[3], data[4]);
+}

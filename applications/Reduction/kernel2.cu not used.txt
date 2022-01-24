@@ -1,0 +1,28 @@
+// each thread loadsone element from global to shared mem
+
+__global__ void reduce1(intg_idata, intg_odata)
+{
+
+extern __shared__ int sdata[];
+
+unsigned int tid = threadIdx.x;
+unsigned int i= blockIdx.xblockDim.x + threadIdx.x;
+
+sdata[tid] = g_idata[i];__syncthreads();
+
+// do reduction in shared mem
+
+for(unsigned int s=1; s  blockDim.x; s = 2)
+{
+	int index = 2  s  tid;
+	if (index  blockDim.x)
+	{
+		sdata[index] += sdata[index + s];
+	}
+	__syncthreads();
+}
+
+// write result for this block to global mem
+if(tid == 0)
+	g_odata[blockIdx.x] = sdata[0];
+}
