@@ -1,14 +1,21 @@
 ## FlexGripPlus
 
 Politecnico di Torino, Turin, Italy
+
 Department of Control and Computer Engineering (DAUIN)
+
 Electronic CAD & Reliability Group (CAD Group)
+
 2019
 
 Author: Josie Esteban Rodriguez Condia
+
 Name of the project: FlexGripPlus
+
 Type: Microarchitectural Open-source General Purpose Graphics Processing Unit (GPGPU)
+
 Language: Full VHDL
+
 Target simulator or technology: The model can be ported into any version of ModelSim and Xcelium
 
 # Description:
