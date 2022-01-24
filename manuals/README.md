@@ -8,4 +8,4 @@ Please visit:
 
 ## SFU (version 1):
 Please visit:
- - Phttps://zenodo.org/record/3934441#.Ye7dNPgo8uU
+ - https://zenodo.org/record/3934441#.Ye7dNPgo8uU

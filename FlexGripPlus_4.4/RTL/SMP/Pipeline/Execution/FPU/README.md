@@ -1,63 +1,72 @@
-USER MANUAL FOR THE FPU 1.0
+## USER MANUAL FOR THE FPU 1.0
 
-Scie Edouard 2019
+Scie Edouard
 
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-== Content ==               	$
-                             	$
--- Description of blocks      $
- |- fpu_add_32.vhd            $
- |- fpu_sub_32.vhd           	$
- |- fpu_mul_32.vhd           	$
- |- fpu_fma_32.vhd           	$
- |- fpu_round_32.vhd        	$
- |- fpu_exceptions_32.vhd	    $
- |- fpu_conv_32.vhd   			  $
- |- fpu_set_32.vhd    			  $
- |- fpu_rcp_32.vhd    			  $
- |- fpu_top_32_new.vhd     	  $
- |- fpupackage.vhd            $
-  					                  $
--- Instruction opcodes        $
--- Simulation guide           $
-                              $
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Grenoble Institute of Technology
+
+2019
+
+# == Content ==               	
+                             	
+1.0 Description of blocks
+ - fpu_add_32.vhd
+ - fpu_sub_32.vhd
+ - fpu_mul_32.vhd
+ - fpu_fma_32.vhd
+ - fpu_round_32.vhd
+ - fpu_exceptions_32.vhd
+ - fpu_conv_32.vhd
+ - fpu_set_32.vhd
+ - fpu_rcp_32.vhd
+ - fpu_top_32_new.vhd
+ - fpupackage.vhd
+
+2.0 Instruction opcodes
+
+3.0 Simulation guide
+
+# == Description of blocks ==
 
 
-== Description of blocks ==
-
-
-** fpu_add_32.vhd **
+## fpu_add_32.vhd ##
 This block computes the addition between two POSITIVE floats. P-O-S-I-T-I-V-E! dont even try to add negative there is sub block for that
 The process is quite simple :
+
 First the numbers must go through an unpacking operation.
+
 The sign, exponent and mantissa are separated and the implicit 1. is aggregated in front of the mantissa if the number is normalized.
 After that the bigger number is determined by comparing the two exponents.
 This number will give its exponent and sign to the result and the smaller mantissa is shifted right by the exponent difference.
 Now that the mantissas are aligned, it is possible to add both and store the result in a 27 bits word: the result is extended by one bit to the left in case of a carry and two bit to the right for rounding purpose.
+
 At this point if the leftmost bit up a carry has appeared, the result exponent must be refreshed and increased by one and the mantissa shifted right.
 This is due to normalization which requires that the number to be represented with the biggest exponent possible.
 The same kind of adjustement are also done if the result becomes normalized from denormal operands.
-The result is NOT repacked but sent to the round stage in 3 parts .
+The result is NOT repacked but sent to the round stage in 3 parts.
 
- ** fpu_sub_32.vhd **
+## fpu_sub_32.vhd ##
 This block computes the subtraction between two floats WITHOUT ANY GIVEN SIGN CONSIDERATION.
 Now you should understand why the add block works with positives only: when FADD instruction is scheduled, one of these two blocks is activated depending on the sign of operands in the registers and the options given (+/-).
+
 This has been done because sm_10 dont have a proper FSUB instruction but only FADD + options.
 Anyway, the process is extremely similar to the addition:
 The sign, exponent and mantissa are separated and the implicit 1. is aggregated in front of the mantissa if the number is normalized.
+
 After that the bigger number is determined by comparing the two exponents and placed first so the operation is always BIG - SMALL.
 If needed the sign of the output is changed to match the big one's.
 This number will give its exponent and sign to the result and the smaller mantissa is shifted right by the exponent difference.
+
 Now that the mantissas are aligned, it is possible to subtract both and store the result in a 27 bits word: the result is extended by one bit to the left (to match the precedent format) and two bit to the right for rounding purpose.
+
 At this point cancellation may happen and there could be leading zeros in the mantissa, the result exponent must be refreshed and decreased by one and the mantissa shifted left for each zero.
+
 This is due to normalization which requires that the number to be represented as 1.mantissa.
 We take care of not shifting so much than the exponent becomes negative. Instead if we reach zero for the exponent, the resutlt is denormal and the mantissa is left with leading zeros.
 The same kind of adjustement are also done if the result becomes normalized from denorm operands.
 The result is NOT repacked but sent to the round stage.
 
 
-** fpu_mul_32.vhd **
+## fpu_mul_32.vhd ##
 This block computes the multiplication between two floats.
 The process is quite straightforward as multiplicaton is easy for floats:
 Classic unpacking... but then exponents are added and mantissas are multiplied and stored in a 48 bits long word.
@@ -67,7 +76,7 @@ As usual we keep 27 bits for the final mantissa, all the bits from the 48 bits w
 The result is NOT repacked but sent to the round stage.
 
 
-** fpu_fma_32.vhd **
+## fpu_fma_32.vhd ##
 - visit https://doc.lagout.org/science/0_Computer%20Science/3_Theory/Handbook%20of%20Floating%20Point%20Arithmetic.pdf  p254 for more explanation
 Some of the values were changed from the book to make the block work properly
 
@@ -79,43 +88,45 @@ As for multiplication we make sure that there is no zeros in front of the mantis
 The result is NOT repacked but sent to the round stage.
 
 
-** fpu_conv_32.vhd **
+## fpu_conv_32.vhd ##
 This block computes conversion between integers and floats, or floats to floats (NEG/ABS instruction).
 For convenience it has been designed to work on 1 cycle and has 2 distinct inputs and outputs for ints and floats. This block is not connected to the fpu_round_32.vhd block as it has a different internal format.
-/!\ At the time of this was written, conversion from half(16), quarter(8) integer is not always working. CARE FOR .BEXT option /!\  
--For conversion integer to float:
+
+### At the time of this was written, conversion from half(16), quarter(8) integer is not always working. CARE FOR .BEXT option ###
+- For conversion integer to float:
 we check for special input 0, if not null we can convert normally.
 I found out that one way of converting is shifting out all leading zeros of the integer,
 keeping 23 bits + possible or-ed remaining bits for rounding and using them as mantissa,
 setting the exponent at 158 - numbers of zeros shifted out.
 I believe the value 158 has to be changed for longer/ shorter integers
 In case of signed, only a 2's complement is required before doing the conversion.
--For conversion floats to integer:
+- For conversion floats to integer:
 we check for special inputs as 0, and infinity or negatives when converting to unsigned.
 Then we do the reverse operation. The number of leading zeros is 158 - exponent.
 The mantissa is put inside a 77 bits long word (to keep remaining bits for rounding) and shifted right by the precedent amount.
 In some cases the float is too big to fit inside an integer: exponent > 158, so the integer is set to x'FFFFFFFF .
 First 32 bits of the 77-bit longword are the integer, those remaining are used for rounding.
--For conversion float to float NEG:
+- For conversion float to float NEG:
 The sign of the input is not-ed and given to the output.
--For conversion float to float ABS:
+- For conversion float to float ABS:
 The sign of the output is set at '0'.
--For TRSFR (transfer):
+- For TRSFR (transfer):
 output = input, this is ABS instruction without the abs option enabled... (basically a NOP)
 
-** fpu_set_32.vhd **
+## fpu_set_32.vhd ##
 This block is used for comparison between floats. The related instruction FSET stores the boolean result of the comparison in a predicate register for further usage.
-/!\ the output used for predication was copied from the ISET block of the scalar processor : in pipeline_execute.vhd , at the generation of predicate flags,
-pred_flags_o(i)(1) is set to '1' when comparison is true else '0'
-pred_flags_o(i)(0) is set to '0' when comparison is true else '1'
-this is done by copying the first bit (and NOT-first bit) of output of the FPU which gaves x'FFFFFFFF or x'00000000.
-/!\
+### the output used for predication was copied from the ISET block of the scalar processor : in pipeline_execute.vhd , at the generation of predicate flags,
+### pred_flags_o(i)(1) is set to '1' when comparison is true else '0'
+### pred_flags_o(i)(0) is set to '0' when comparison is true else '1'
+### this is done by copying the first bit (and NOT-first bit) of output of the FPU which gaves x'FFFFFFFF or x'00000000. ###
+
 Anyway, the process of comparing floats is not too different from comparing integers. The only specificity is that comparing exponents has priority over the comparison of mantissas.  Both comparisons being simple unsigned/ bit-to-bit tests.
 
-** fpu_rcp_32.vhd **
+## fpu_rcp_32.vhd ##
 This block is computing the reciprocal of a floating-point. It is using non-restoring division algorithm based on the implementation done by  http://www.arithmetic-circuits.org/guide2fpga/vhdl_Models/chapter12/fp_div.vhd
+
 Subnormal support has been added has well as modifications to the internal format to match the already present rounding stage. Also the signals for the dividend were deleted as only the reciprocal of a number is computed.
--For normalized numbers, exponent result is set to 2*BIAS – exp (because exponent of 1,0 is BIAS)
+- For normalized numbers, exponent result is set to 2*BIAS – exp (because exponent of 1,0 is BIAS)
 The non-restoring divide algorithm provides the mantissa by computing (mantissa of 1,0) / (mantissa of the input).  At each step one bit of the mantissa is computed by :
 if MSB(Remainder) = 0
 {
@@ -151,20 +162,22 @@ CARE : sometimes IEEE seems to not be following this rule so theres is an "error
 This block's output can be the output of the FPU if the exception block doesnt raise any flags.
 
 
-** fpu_exceptions_32.vhd **
+## fpu_exceptions_32.vhd ##
 This block looks for exceptions aka invalid outputs in parallel of the rounding.
 Flags are raised and optional output can be given if an exception is found.
 Major ones are: NaNs inputs, operation bewteen infinities, overflow and underflow (exp FF or 00 after computation).
 
 
-** fpu_top_32_new.vhd **
+## fpu_top_32_new.vhd ##
 This block is the top level of the FPU. It manages internal arithmetic blocks and workflow with a finite state machine.
 The FSM has 5 stages: IDLE, GRAB, SET, WORK and DONE.
+
 IDLE is doing nothing... it wakes up when the FPU receives an enable signal from the execution pipeline.
 During GRAB (1 cycle) the FPU gathers all operands and parameters given by the execution pipeline and stored them.
 During SET (2 cycles) the FPU uses given parameters to activate the arithmetic blocks needed and set a counter that represents the number of cycles needed for computation.
 To determine wether addition or subtraction should be done, when FADD instruction is received, the values inside the operands and the negative options are used to compute the true values of these operands. If one of the true operands is negative then the sub block is enable instead of the add.
 During WORK (multiple cycles) , the FPU waits for the end of the computation in the arithmetic blocks. The counter is incremented each cycles until it reaches the limit set before.
+
 Also rounding and exception blocks' inputs are enabled depending on which block is actually computing. For conversion/comparison no rounding nor exception is done.
 During DONE the FPU gathers outputs from rounding and exceptions/ conversion and choses one of them as final output depending on the presence of flags.
 It then maintain this output for 2 cycle or until the write stage is ready (stall_in signal).
@@ -172,27 +185,7 @@ The FPU then goes back to IDLE and waits until enabled again .
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-== Instruction opcodes ==
+# == Instruction opcodes == #
 
 Available instructions are :
 			opcode(subopcode)
@@ -208,30 +201,30 @@ RCP(unsure)		1001(000)
 The description of bitfield and multiple examples found while playing with CUDA are given in the file opcodes.ods
 Instructions FSET and RCP are quiete hard to generate with options so it is not sure that everything has been decoded.
 
-** TO ADD A NEW INSTRUCTIONS **
--Design and add the new blocks in the FPU folder
--Modify gpgpu_compile.tcl with the new paths during compilation
--Add new instructions in gpgpu_package.vhd under alu_opcode_type and alu_opcode_array
--Modify pipeline_decode.vhd to get all sources/options
--Modify pipeline_execute.vhd , stage IDLE, signal fpu_instr, to match instructions name in gpgpu_package with internal name (can be same name but type is different)
+## TO ADD A NEW INSTRUCTIONS ##
+- Design and add the new blocks in the FPU folder
+- Modify gpgpu_compile.tcl with the new paths during compilation
+- Add new instructions in gpgpu_package.vhd under alu_opcode_type and alu_opcode_array
+- Modify pipeline_decode.vhd to get all sources/options
+- Modify pipeline_execute.vhd , stage IDLE, signal fpu_instr, to match instructions name in gpgpu_package with internal name (can be same name but type is different)
  If instructions output uses predicate, modify gPredicateFlags
 
 
-== Simulation Guide ==
+# == Simulation Guide ==#
 
 There are two ways to test the FPU. As a standalone, for checking the results precisely and in large amount, or within the GPU, to test the decoding and correct execution of multiple instructions.
 Depending on the need different files are used.
 
 
-$$$ Required files for standalone usage$$$
+### Required files for standalone usage ###
 softfloat.h and softfloat.a (can be obtained by compiling soffloat-3e)
 FloatGen.c
 FPU_32/VHD folder for the design files
 FPU_32/TB folder for the testbenchs files
 
-#compile command of the design in modelsim#
+#### compile command of the design in modelsim ####
 do fpu_compile.tcl.txt
-#compile command of the inputs #
+#### compile command of the inputs ####
 gcc  FloatGen.c -L. soffloat.a -o FloatGen.exe
 
 ./FloatGen produces :
@@ -245,7 +238,7 @@ It will produce VHDL_"operation".txt file which are the results of the operation
 
 
 
-$$$ Required files for GPGPU usage $$$
+### Required files for GPGPU usage ###
 softfloat.h and softfloat.a (can be obtained by compiling soffloat-3e)
 mif_gen.c
 FlexGrip version including the FPU
@@ -264,12 +257,12 @@ You should produce as many floats for each operands as the number of threads in 
 At the moment it is set for a function with 3 inputs and 1 output. If application chosen is not fma the 3rd input will be all zero instead of random numbers to make it clearer.
 When finished simulating the GPU produce a file gpu_rdata.log which can be compared with the gold file with the following command:
 
-#compare command #
+#### compare command ####
 
 diff -y --suppress-common-lines gpgpu_rdata.log global_mem_gold.mif
 
 
-$$$ Aplication specific : Matrix Multiplication $$$
+#### Aplication specific : Matrix Multiplication ####
 softfloat.h and softfloat.a (can be obtained by compiling soffloat-3e)
 MatrixMul.c
 FlexGrip version including the FPU with one of the TB provided in GenericDesign/TB/TP and pick_bench set accordingly
