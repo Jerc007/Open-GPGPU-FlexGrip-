@@ -18,7 +18,7 @@ Electronic CAD & Reliability Group (CAD Group)
 
 2019
 
-# Description:
+## Description:
 
 The **FlexGripPlus** model is an open-source General Purpose Graphics Processing Unit (GPGPU) fully described in vhdl and implementing the microarchitecture of the [**G80**](https://ieeexplore.ieee.org/document/4523358) architecture by **NVIDIA**. The model was originally developed by the University of Massachusetts and released in 2010 targeting the implementation on Xilinx platforms. 
 
@@ -30,7 +30,7 @@ For additional details regarding the internal description, please see the follow
 - J. E. R. Condia, B. Du, M. Sonza Reorda and L. Sterpone, *"FlexGripPlus: An improved GPGPU model to support reliability analysis,"* Microelectronics Reliability 109, 113660, 2020
 
 
-# Quick simulation steps:
+## Quick simulation steps:
 
 Please check the *"FlexGripPlus_4.4"* folder, it contains the whole description of the latest release version of the GPU model.
 Follow the next steps if you want to perform an initial simulation of the model:
@@ -46,7 +46,7 @@ this will starts the operation of the GUI of modelsim and import all required fi
 
 3) Analyze results ( file *gpgpu_rdata.log*, generated in the same /lib_m folder) or change target application for the simulation. (See steps for changing the application)
 
-# Quick App change steps:
+## Quick App change steps:
 
 In order to change the application, three elements must be considered in the GPU:
 - The instruction memory;
@@ -83,6 +83,11 @@ Once you change or move new files, you can repeat the launching process and chec
 
 The **FlexGripPlus** model was developed in the CAD group of Politecnico di Torino, Turin, Italy and supported with funding by the European Comission through the **Horizon 2020 RESCUE-ETN project** under grant 722325. 
 For more information: http://rescue-etn.eu/
+
+The Floating Point Unit (FPU) extension and op-codes were developed in cooperation between Politecnico di Torino and the Grenoble Institute of Technology.
+
+The Special Functions Unit (SFU) extension and op-codes were developed in cooperation between Politecnico di Torino and Universidad Pedagogica y Tecnologica de Colombia (UPTC).
+
 
 ![](https://pbs.twimg.com/profile_images/913684021040893952/GrLIBP1R_400x400.jpg)
 
