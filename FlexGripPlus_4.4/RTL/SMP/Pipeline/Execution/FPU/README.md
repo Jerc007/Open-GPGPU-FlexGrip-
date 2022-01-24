@@ -1,24 +1,27 @@
 ## USER MANUAL FOR THE FPU 1.0
 
-Scie Edouard 2019
+Scie Edouard
+
+Grenoble Institute of Technology
+
+2019
 
 # == Content ==               	
                              	
 -  Description of blocks      
- |- fpu_add_32.vhd            
- |- fpu_sub_32.vhd           	
- |- fpu_mul_32.vhd           	
- |- fpu_fma_32.vhd           	
- |- fpu_round_32.vhd        
- |- fpu_exceptions_32.vhd	    
- |- fpu_conv_32.vhd   			  
- |- fpu_set_32.vhd    			  
- |- fpu_rcp_32.vhd    			  
- |- fpu_top_32_new.vhd     	  
- |- fpupackage.vhd            
-  					                  $
--- Instruction opcodes        
--- Simulation guide           
+ - fpu_add_32.vhd            
+ - fpu_sub_32.vhd           	
+ - fpu_mul_32.vhd           	
+ - fpu_fma_32.vhd           	
+ - fpu_round_32.vhd        
+ - fpu_exceptions_32.vhd	    
+ - fpu_conv_32.vhd   			  
+ - fpu_set_32.vhd    			  
+ - fpu_rcp_32.vhd    			  
+ - fpu_top_32_new.vhd     	  
+ - fpupackage.vhd
+- Instruction opcodes        
+- Simulation guide           
                               
 
 
