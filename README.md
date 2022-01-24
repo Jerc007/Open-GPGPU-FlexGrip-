@@ -1,5 +1,15 @@
 ## FlexGripPlus
 
+Name of the project: FlexGripPlus
+
+Type: Microarchitectural Open-source General Purpose Graphics Processing Unit (GPGPU)
+
+Author: Josie Esteban Rodriguez Condia
+
+Language: Full VHDL
+
+Target simulator or technology: The model can be ported into any version of ModelSim and Xcelium
+
 Politecnico di Torino, Turin, Italy
 
 Department of Control and Computer Engineering (DAUIN)
@@ -7,16 +17,6 @@ Department of Control and Computer Engineering (DAUIN)
 Electronic CAD & Reliability Group (CAD Group)
 
 2019
-
-Author: Josie Esteban Rodriguez Condia
-
-Name of the project: FlexGripPlus
-
-Type: Microarchitectural Open-source General Purpose Graphics Processing Unit (GPGPU)
-
-Language: Full VHDL
-
-Target simulator or technology: The model can be ported into any version of ModelSim and Xcelium
 
 # Description:
 
@@ -32,7 +32,7 @@ For additional details regarding the internal description, please see the follow
 
 # Quick simulation steps:
 
-Please check the *"FlexGripPlus_P"* folder, it contains the whole description of the GPU model. 
+Please check the *"FlexGripPlus_4.4"* folder, it contains the whole description of the latest release version of the GPU model.
 Follow the next steps if you want to perform an initial simulation of the model:
 Steps to perform a simulation of the GPGPU model.
 
@@ -44,27 +44,27 @@ this will starts the operation of the GUI of modelsim and import all required fi
 
 2) Continue the execution until reach the **DONE** state in the *TB_State_machine* signal. When reached it means that memory results of the operation were correctly stored during simulation.
 
-3) Analyze results or change target application for the simulation. (See steps for changing the application)
+3) Analyze results ( file *gpgpu_rdata.log*, generated in the same /lib_m folder) or change target application for the simulation. (See steps for changing the application)
 
 # Quick App change steps:
 
-In order to change the application, three elements must be considered in the GPU: The instruction memory, the data memory and the configuration memory.
+In order to change the application, three elements must be considered in the GPU:
+- The instruction memory;
+- the data memory;
+- the configuration memory.
 
-In the GPU model, the instruction memory is named as *TP_instructions.vhd*
-The data memory is named as *global_mem.mif*
-The configuration memory is named as *pickbench.vhd*
-
-You need to replace the files in order to change the target application. In this version, the replacement of the application is performed by changing one, or all files which behaves as memory in the model.
-
+The instruction memory is named as *TP_instructions.vhd* (located at: RTL/TB/TP)
 The *"TP_instructions.vhd"* file includes the assembly isntructions (.SASS) which are supported by the FlexGrip-Plus model. It should be noted that conventional NVCC cuda compilers can be employed under the SM_1.0.
 
+The data memory is named as *global_mem.mif* (located at: RTL/TB/TP)
 The *"global_mem.mif"* contains the data elements required by the aplication. If required, this memory must be generated considering the target application.
 
+The configuration memory is named as *pickbench.vhd* (located at: RTL/TB/configuration)
 The *"pickbench.vhd"* file contains the configuration parameters required by the model. These are maintained as constants by the lack of a host to control them before a program kernel operation. Check the dedicated manual to select the values of each line in this file.
 
-Once you change or move new files, you can repeat the launching process and check the simulation of the model.
+You need to replace the three files in order to change the target application. Use the files in the Applications folder to set a new application.
 
-Other documents of support:
+Once you change or move new files, you can repeat the launching process and check the simulation of the model.
 
 
 ## Additional documentation:
