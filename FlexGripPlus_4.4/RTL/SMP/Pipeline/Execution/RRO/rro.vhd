@@ -93,9 +93,18 @@ s_exp2_cmp			<= s_exp2_fixed_point xor s_exp2_sign_ext;
 
 s_exp2_adjs			<= std_logic_vector(unsigned(s_exp2_cmp) + 1) when input(31)='1' else s_exp2_cmp;
 
-s_exp2_final_result <= '1'&"11111111"&"00000000000000000000000" when s_too_big_exponent='1' else 
-						'1'&"00000000"&input(22 downto 0) when (input(30 downto 23)=X"FF" and input(31)='1') else 
-						'1'&input(30 downto 0) when (input(30 downto 23)=X"FF" and input(31)='0') else '0'&s_exp2_adjs(30 downto 0);
+-- s_exp2_final_result <= '1'&"11111111"&"00000000000000000000000" when s_too_big_exponent='1' else 
+-- 						'1'&"00000000"&input(22 downto 0) when (input(30 downto 23)=X"FF" and input(31)='1') else 
+-- 						'1'&input(30 downto 0) when (input(30 downto 23)=X"FF" and input(31)='0') else '0'&s_exp2_adjs(30 downto 0);
+
+s_exp2_final_result <=  '1'&"00001111"&"00000000000000000000000" when (input=X"7f800000") else  --+inf
+						'1'&"11110000"&"00000000000000000000000" when (input=X"ff800000") else  -- -inf
+						'1'&"11111111"&input(22 downto 0) when (input(30 downto 23)=X"FF" and input(22 downto 0)/="00000000000000000000000") else --NAN
+						'1'&"00001111"&"00000000000000000000000" when (s_too_big_exponent='1' and input(31)='0') else
+						'1'&"11110000"&"00000000000000000000000" when (s_too_big_exponent='1' and input(31)='1') else
+						'1'&"00000000"&"00000000000000000000000" when (input=X"00000000" or input(30 downto 23)=X"00")  else  -- Zero/subnorm
+						'0'&s_exp2_adjs(30 downto 0);
+
 
 
 Result <= s_exp2_final_result when selec_phase='1' else ieee_out_sin_cos;

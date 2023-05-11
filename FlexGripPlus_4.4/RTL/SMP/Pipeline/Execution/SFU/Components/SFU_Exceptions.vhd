@@ -108,13 +108,30 @@ end process;
 IEEEEx2:process(i_data_input,i_oper_result)
 begin
 
-	if i_data_input(31)='1' and i_data_input(30 downto 23) = X"00" then -- -inf
-		s_ex2_exeption <= (others=>'0'); -- NaN +inf
-	elsif i_data_input(31)='1' and i_data_input(30 downto 23) = X"FF" then --+inf nan
-		s_ex2_exeption <='0'&i_data_input(30 downto 0);
+	if i_data_input(31)='1' then
+		if i_data_input(30 downto 23) = X"F0" and i_data_input(22 downto 0) = "00000000000000000000000" then -- input = -inf; output=0
+			s_ex2_exeption <= X"00000000";
+		elsif i_data_input(30 downto 23) = X"0F" and i_data_input(22 downto 0) = "00000000000000000000000" then -- input = +inf; output=+inf
+			s_ex2_exeption <= X"7f800000";
+		elsif i_data_input(30 downto 23) = X"FF" and i_data_input(22 downto 0) /= "00000000000000000000000" then -- input = NAN; output=NAN
+			s_ex2_exeption <= i_data_input;
+		elsif i_data_input(30 downto 23) = X"00" and i_data_input(22 downto 0) = "00000000000000000000000" then -- input = zero/+/-subnormal; output=+1
+			s_ex2_exeption <= X"3f800000";
+		else  -- input = normal ; output=2**-x
+			s_ex2_exeption <= i_oper_result;
+		end if;
 	else
-		s_ex2_exeption <=i_oper_result;
+		s_ex2_exeption <= i_oper_result;
 	end if;
+
+
+	-- if i_data_input(31)='1' and i_data_input(30 downto 23) = X"00" then -- -inf
+	-- 	s_ex2_exeption <= (others=>'0'); -- NaN +inf
+	-- elsif i_data_input(31)='1' and i_data_input(30 downto 23) = X"FF" then --+inf nan
+	-- 	s_ex2_exeption <='0'&i_data_input(30 downto 0);
+	-- else
+	-- 	s_ex2_exeption <=i_oper_result;
+	-- end if;
 
 end process;
 
